@@ -35,7 +35,7 @@ else:
 #-------------------2 часть-------------------
 
 print('----------2 часть----------')
-'''Вывести всевозможные комбинации фруктов, находящихся на нечётных местах(4), 
+'''Вывести всевозможные комбинации фруктов, находящихся на нечётных местах, 
 далее вывести всевозможные комбинации из 4х фруктов, калории которых не превышают 70'''
 
 from itertools import combinations
@@ -47,7 +47,7 @@ def make_snack_menu(fruits):
     even_index_fruits = [f for i, f in enumerate(fruits) if i % 2 == 0]
 
     # Находим все возможные комбинации фруктов на нечетных местах списка
-    even_index_combos = list(combinations(even_index_fruits, 4))
+    even_index_combos = list(combinations(even_index_fruits, 7))
 
     print(f'Количество комбинаций только с фруктами на нечетном месте: {len(even_index_combos)}')
     for combo in even_index_combos:
@@ -55,14 +55,14 @@ def make_snack_menu(fruits):
 
     # Находим комбинации фруктов с калорийностью меньше 70
     low_cal_fruits = [f for f in fruits if fruits[f] < 70]
-    low_cal_combos = list(combinations(low_cal_fruits, 4))
+    low_cal_combos = list(combinations(low_cal_fruits, 7))
 
     print(f'Количество комбинаций из фруктов с калорийностью меньше 70: {len(low_cal_combos)}')
     for combo in low_cal_combos:
         print(f'{combo} ({len(set(combo))} различных фрукта)')
 
     # Находим все возможные комбинации фруктов
-    all_combos = list(combinations(fruits, 4))
+    all_combos = list(combinations(fruits, 7))
 
     print(f'Количество всех возможных комбинаций: {len(all_combos)}')
     for combo in all_combos:

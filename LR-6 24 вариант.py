@@ -7,63 +7,66 @@
 Сформировать (вывести) все возможные варианты меню полдника (1 фрукт) для ребенка на неделю.
 '''
 import random
+
 #-------------------1 часть-------------------
 
-print('1 часть')
+print('----------1 часть----------')
 
-# список фруктов
-fruits = ['апельсин','яблоко','груша' ,'банан', 'киви', 'ананас', 'виноград', 'манго', 'персик']
+def count_combinations(n, k):
+    return n ** k
 
-# формируем все возможные варианты меню полдника на неделю
-days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
+def make_snack_menu(k: int):
+    fruits = [f'ф{i}' for i in range(1, k+1)]
+    num_combinations = count_combinations(len(fruits), 7)
+    print(f'Всего возможны {num_combinations} вариантов планирования полдников на неделю.')
 
-for day in days:
-    # выбираем случайный фрукт из списка, который еще не был выбран на этой неделе
-    unique_fruits = list(set(fruits))
-    fruit = random.choice(unique_fruits)
-    # удаляем выбранный фрукт из списка, чтобы он не повторялся в другой день
-    fruits.remove(fruit)
-    # выводим меню полдника на день
-    print('{0}: {1}'.format(day, fruit))
+# Вводим количество различных фруктов
+k = int(input('Введите количество различных фруктов: '))
+
+# Проверяем, что переменная k не равна 0
+if k != 0:
+    # Вызываем функцию для вывода количества возможных комбинаций
+    make_snack_menu(k)
+else:
+    print("Фруктов в наличие нет!")
 
 
+    
 #-------------------2 часть-------------------
 
-print('2 часть')
+print('----------2 часть----------')
+'''Вывести всевозможные комбинации фруктов, находящихся на нечётных местах(4), 
+далее вывести всевозможные комбинации из 4х фруктов, калории которых не превышают 70'''
 
-import random
+from itertools import combinations
 
-fruits_calories = [
-    ('апельсин', 47),('яблоко', 52),('груша', 57),('банан', 89),
-    ('киви', 61),('ананас', 50),('виноград', 69),('манго', 60),
-    ('персик', 51)]
+fruits = {'яблоко': 50, 'банан': 95, 'апельсин': 60, 'мандарин': 60, 'груша': 40, 'слива': 30, 'ананас': 90, 'киви': 75}
 
-days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
+def make_snack_menu(fruits):
+    # Находим фрукты, которые стоят на нечетных местах списка
+    even_index_fruits = [f for i, f in enumerate(fruits) if i % 2 == 0]
 
-menu = {}
-used_fruits = []
+    # Находим все возможные комбинации фруктов на нечетных местах списка
+    even_index_combos = list(combinations(even_index_fruits, 4))
 
-for day in days:
-    # выбираем случайный фрукт из списка, у которого калорийность находится в заданном диапазоне
-    unused_fruits = [
-        f for f in fruits_calories
-        if f[0] not in used_fruits and 40 <= f[1] <= 70  # диапазон калорийности
-    ]
-    
-    # проверяем, что есть доступные фрукты
-    if unused_fruits:
-        fruit = random.choice(unused_fruits)
-        menu[day] = fruit[0]
-        used_fruits.append(fruit[0])
-    else:
-        print(f'Недостаточно фруктов в диапазоне калорийности на день {day}')
+    print(f'Количество комбинаций только с фруктами на нечетном месте: {len(even_index_combos)}')
+    for combo in even_index_combos:
+        print(f'{combo} ({len(set(combo))} различных фрукта)')
 
-for day, fruit in menu.items():
-    cal = next(f[1] for f in fruits_calories if f[0] == fruit)
-    print(f'{day}: {fruit} ({cal} ккал)')
+    # Находим комбинации фруктов с калорийностью меньше 70
+    low_cal_fruits = [f for f in fruits if fruits[f] < 70]
+    low_cal_combos = list(combinations(low_cal_fruits, 4))
 
-# сортируем список фруктов по убыванию калорийности
-fruits_calories.sort(key=lambda x: x[1], reverse=True)
+    print(f'Количество комбинаций из фруктов с калорийностью меньше 70: {len(low_cal_combos)}')
+    for combo in low_cal_combos:
+        print(f'{combo} ({len(set(combo))} различных фрукта)')
 
-# выводим самый калорийный фрукт
-print(f'Самый калорийный фрукт на неделе: {fruits_calories[1][0]}')
+    # Находим все возможные комбинации фруктов
+    all_combos = list(combinations(fruits, 4))
+
+    print(f'Количество всех возможных комбинаций: {len(all_combos)}')
+    for combo in all_combos:
+        print(f'{combo} ({len(set(combo))} различных фрукта)')
+
+make_snack_menu(fruits)
+
